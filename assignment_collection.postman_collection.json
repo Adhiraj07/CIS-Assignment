@@ -1,0 +1,1391 @@
+{
+	"info": {
+		"_postman_id": "516f2829-d58b-45f8-9fb7-06ed61e86798",
+		"name": "assignment_collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25793365",
+		"_collection_link": "https://interstellar-shadow-69829.postman.co/workspace/9a0fc094-bd1a-4d59-88ae-076a8ac40ede/collection/25793365-516f2829-d58b-45f8-9fb7-06ed61e86798?action=share&source=collection_link&creator=25793365"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Post",
+					"item": [
+						{
+							"name": "Register user",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\":\"ram\",\r\n    \"password\": \"ram@1234\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/core/register/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"core",
+										"register",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "http://localhost:8000/api/core/register/",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"username\":\"ram\",\r\n    \"password\": \"ram@1234\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8000/api/core/register/",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8000",
+											"path": [
+												"api",
+												"core",
+												"register",
+												""
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Fri, 20 Jun 2025 08:17:49 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.13.1"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Vary",
+											"value": "Accept, origin"
+										},
+										{
+											"key": "Allow",
+											"value": "POST, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Content-Length",
+											"value": "58"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"username\": [\n        \"A user with that username already exists.\"\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "refresh token",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\r\n{\r\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1MDQ5MDMzNiwiaWF0IjoxNzUwNDAzOTM2LCJqdGkiOiIyNGVkMDYwN2Q2Zjk0OTJhOTEyNDIyYzU2NWY3ZGUxZSIsInVzZXJfaWQiOjMsInJvbGUiOiJNQU5BR0VSIn0.M78hT5-R07v_RbVtd9HbgRsrVREnMPQVLaNLpkxNoks\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/token/refresh/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"token",
+										"refresh",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let data = pm.response.json();\r",
+											"\r",
+											"pm.collectionVariables.set(\"access_token\", data.access);\r",
+											"pm.collectionVariables.set(\"refresh_token\", data.refresh);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"anil\",\r\n    \"password\": \"anil@123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/core/login/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"core",
+										"login",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "http://localhost:8000/api/core/login/",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"username\": \"anil\",\r\n    \"password\": \"anil@123\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8000/api/core/login/",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8000",
+											"path": [
+												"api",
+												"core",
+												"login",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Fri, 20 Jun 2025 08:19:54 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "WSGIServer/0.2 CPython/3.13.1"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Vary",
+											"value": "Accept, origin"
+										},
+										{
+											"key": "Allow",
+											"value": "POST, OPTIONS"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Content-Length",
+											"value": "608"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1MDQ5Mzk5NCwiaWF0IjoxNzUwNDA3NTk0LCJqdGkiOiIxNjM2OTkyZjQyNzQ0YTc2ODQ5MTBiNTE2YTEyMzU1NSIsInVzZXJfaWQiOjMsInJvbGUiOiJNQU5BR0VSIn0.yzxd-YBNap5UTlyIUngbKDhJvehS2coa8JrdLJFnkVs\",\n    \"access\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUwNDA4NDk0LCJpYXQiOjE3NTA0MDc1OTQsImp0aSI6IjIwNjU0Y2IyMjAxYjRkZThhNzYyZTljNDQ1MzRjYTk5IiwidXNlcl9pZCI6Mywicm9sZSI6Ik1BTkFHRVIifQ.ZB21U6MGuSVum30iGv9WHkghwrPBTlEzZl89L3iHgFQ\",\n    \"user\": {\n        \"id\": 3,\n        \"username\": \"anil\",\n        \"email\": \"\",\n        \"role\": \"MANAGER\",\n        \"is_active\": true\n    }\n}"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "USER",
+			"item": [
+				{
+					"name": "UserList",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUwNDEyMzY5LCJpYXQiOjE3NTA0MTE0NjksImp0aSI6ImZkNjk5MmQ2NmJjYzQxYTg4N2RmMTQxZWRjOGFlMmM0IiwidXNlcl9pZCI6Mywicm9sZSI6Ik1BTkFHRVIifQ.579psQ6Jp_5nfwJ_XMe51_O5oeCMwwhZWPxFQrbQFJI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/core/users/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"core",
+								"users",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "UserList",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/core/users/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"core",
+										"users",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 20 Jun 2025 09:34:59 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.13.1"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, origin"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "877"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"username\": \"eddy\",\n        \"email\": \"eddy@gmail.com\",\n        \"role\": \"ADMIN\",\n        \"is_active\": true\n    },\n    {\n        \"id\": 2,\n        \"username\": \"amit\",\n        \"email\": \"\",\n        \"role\": \"USER\",\n        \"is_active\": true\n    },\n    {\n        \"id\": 3,\n        \"username\": \"anil\",\n        \"email\": \"\",\n        \"role\": \"MANAGER\",\n        \"is_active\": true\n    },\n    {\n        \"id\": 4,\n        \"username\": \"rahul\",\n        \"email\": \"rahul@gmail.com\",\n        \"role\": \"USER\",\n        \"is_active\": true\n    },\n    {\n        \"id\": 6,\n        \"username\": \"shreya\",\n        \"email\": \"shreya@gmail.com\",\n        \"role\": \"MANAGER\",\n        \"is_active\": true\n    },\n    {\n        \"id\": 7,\n        \"username\": \"gopal\",\n        \"email\": \"gopal@gmail.com\",\n        \"role\": \"USER\",\n        \"is_active\": true\n    },\n    {\n        \"id\": 9,\n        \"username\": \"testuser\",\n        \"email\": \"\",\n        \"role\": \"USER\",\n        \"is_active\": true\n    },\n    {\n        \"id\": 10,\n        \"username\": \"varun\",\n        \"email\": \"varun@gmail.com\",\n        \"role\": \"USER\",\n        \"is_active\": true\n    },\n    {\n        \"id\": 11,\n        \"username\": \"ajay\",\n        \"email\": \"ajay@gmail.com\",\n        \"role\": \"USER\",\n        \"is_active\": true\n    },\n    {\n        \"id\": 12,\n        \"username\": \"rohan\",\n        \"email\": \"none\",\n        \"role\": \"USER\",\n        \"is_active\": true\n    },\n    {\n        \"id\": 13,\n        \"username\": \"ram\",\n        \"email\": \"none\",\n        \"role\": \"USER\",\n        \"is_active\": true\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "user detail",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUwNDEyMzY5LCJpYXQiOjE3NTA0MTE0NjksImp0aSI6ImZkNjk5MmQ2NmJjYzQxYTg4N2RmMTQxZWRjOGFlMmM0IiwidXNlcl9pZCI6Mywicm9sZSI6Ik1BTkFHRVIifQ.579psQ6Jp_5nfwJ_XMe51_O5oeCMwwhZWPxFQrbQFJI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/core/users/2/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"core",
+								"users",
+								"2",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "user detail",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/core/users/2/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"core",
+										"users",
+										"2",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 20 Jun 2025 09:36:29 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.13.1"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, origin"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "68"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 2,\n    \"username\": \"amit\",\n    \"email\": \"\",\n    \"role\": \"USER\",\n    \"is_active\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "Update the user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUwNDEzMzI5LCJpYXQiOjE3NTA0MTI0MjksImp0aSI6IjE1YmIzODViNWQ4NjRlMGU5NTcyZGE3ZDhjYzc0MzNkIiwidXNlcl9pZCI6MSwicm9sZSI6IkFETUlOIn0.g2eHneSc3kixpvNZsIGxa6amD6MYDv3MN5OtOT0sQ9I",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"rishabh\",\r\n    \"password\":\"rishabh@123\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/core/users/3/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"core",
+								"users",
+								"3",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update the user",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"rishabh\",\r\n    \"password\":\"rishabh@123\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/core/users/3/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"core",
+										"users",
+										"3",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 20 Jun 2025 09:51:47 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.13.1"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, origin"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "74"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 3,\n    \"username\": \"rishabh\",\n    \"email\": \"\",\n    \"role\": \"MANAGER\",\n    \"is_active\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "Edit specific field",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUwNDEzMzI5LCJpYXQiOjE3NTA0MTI0MjksImp0aSI6IjE1YmIzODViNWQ4NjRlMGU5NTcyZGE3ZDhjYzc0MzNkIiwidXNlcl9pZCI6MSwicm9sZSI6IkFETUlOIn0.g2eHneSc3kixpvNZsIGxa6amD6MYDv3MN5OtOT0sQ9I",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"javed\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/core/users/3/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"core",
+								"users",
+								"3",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Edit specific field",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\":\"javed\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/core/users/3/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"core",
+										"users",
+										"3",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 20 Jun 2025 09:54:21 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.13.1"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, origin"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "72"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 3,\n    \"username\": \"javed\",\n    \"email\": \"\",\n    \"role\": \"MANAGER\",\n    \"is_active\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "User Deletion",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUwNDE0MjQzLCJpYXQiOjE3NTA0MTMzNDMsImp0aSI6ImYzNTMyOTVmZTVlZTRkNTE4MGEwYjY5MmVjZTYxMGM3IiwidXNlcl9pZCI6MSwicm9sZSI6IkFETUlOIn0.qUl-cUP7OxKrLJaU8E-ykIHg8PVbRwKc1O933GIxssk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/core/users/3/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"core",
+								"users",
+								"3",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tasks",
+			"item": [
+				{
+					"name": "TaskList",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"eddy\",\r\n    \"password\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/core/tasks/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"core",
+								"tasks",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "TaskList",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\":\"eddy\",\r\n    \"password\": \"1234\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/core/tasks/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"core",
+										"tasks",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 20 Jun 2025 08:17:24 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.13.1"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, origin"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "3387"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"title\": \"Need to deliver the purchase order report\",\n        \"description\": \"purchase order report\",\n        \"status\": \"IN_PROGRESS\",\n        \"deadline\": null,\n        \"assigned_to\": \"gopal\",\n        \"assigned_by_user\": \"eddy\",\n        \"assigned_by\": 1,\n        \"created_at\": \"2025-06-19T07:24:53.280829Z\",\n        \"updated_at\": \"2025-06-19T15:52:13.327663Z\"\n    },\n    {\n        \"id\": 9,\n        \"title\": \"need to paint that wall\",\n        \"description\": \"need to paint that wall\",\n        \"status\": \"PENDING\",\n        \"deadline\": null,\n        \"assigned_to\": \"amit\",\n        \"assigned_by_user\": \"gopal\",\n        \"assigned_by\": 7,\n        \"created_at\": \"2025-06-19T16:41:43.596763Z\",\n        \"updated_at\": \"2025-06-19T16:41:43.596780Z\"\n    },\n    {\n        \"id\": 10,\n        \"title\": \"Need to deliver chair at home\",\n        \"description\": \"deliver\",\n        \"status\": \"PENDING\",\n        \"deadline\": null,\n        \"assigned_to\": \"amit\",\n        \"assigned_by_user\": \"shreya\",\n        \"assigned_by\": 6,\n        \"created_at\": \"2025-06-19T16:48:25.135847Z\",\n        \"updated_at\": \"2025-06-19T17:17:01.865643Z\"\n    },\n    {\n        \"id\": 11,\n        \"title\": \"Need to deliver table to home\",\n        \"description\": \"deliver\",\n        \"status\": \"PENDING\",\n        \"deadline\": null,\n        \"assigned_to\": \"amit\",\n        \"assigned_by_user\": \"gopal\",\n        \"assigned_by\": 7,\n        \"created_at\": \"2025-06-19T17:03:28.406124Z\",\n        \"updated_at\": \"2025-06-19T17:16:07.358217Z\"\n    },\n    {\n        \"id\": 12,\n        \"title\": \"Need to deliver table to home\",\n        \"description\": \"deliver\",\n        \"status\": \"PENDING\",\n        \"deadline\": null,\n        \"assigned_to\": \"amit\",\n        \"assigned_by_user\": \"shreya\",\n        \"assigned_by\": 6,\n        \"created_at\": \"2025-06-19T18:19:32.775503Z\",\n        \"updated_at\": \"2025-06-19T18:19:32.775519Z\"\n    },\n    {\n        \"id\": 13,\n        \"title\": \"edit youtube videos\",\n        \"description\": \"edit youtube videos\",\n        \"status\": \"MISSED\",\n        \"deadline\": \"2025-06-19\",\n        \"assigned_to\": \"gopal\",\n        \"assigned_by_user\": \"eddy\",\n        \"assigned_by\": 1,\n        \"created_at\": \"2025-06-20T06:04:55.997556Z\",\n        \"updated_at\": \"2025-06-20T06:04:55.997583Z\"\n    },\n    {\n        \"id\": 14,\n        \"title\": \"Go to library\",\n        \"description\": \"Go to library\",\n        \"status\": \"MISSED\",\n        \"deadline\": \"2025-06-19\",\n        \"assigned_to\": \"gopal\",\n        \"assigned_by_user\": \"eddy\",\n        \"assigned_by\": 1,\n        \"created_at\": \"2025-06-20T06:05:28.874816Z\",\n        \"updated_at\": \"2025-06-20T06:05:28.874843Z\"\n    },\n    {\n        \"id\": 15,\n        \"title\": \"Going to market\",\n        \"description\": \"Going to market\",\n        \"status\": \"MISSED\",\n        \"deadline\": \"2025-06-19\",\n        \"assigned_to\": \"gopal\",\n        \"assigned_by_user\": \"eddy\",\n        \"assigned_by\": 1,\n        \"created_at\": \"2025-06-20T06:05:48.478198Z\",\n        \"updated_at\": \"2025-06-20T06:05:48.478217Z\"\n    },\n    {\n        \"id\": 16,\n        \"title\": \"wash Clothes\",\n        \"description\": \"wash Clothes\",\n        \"status\": \"MISSED\",\n        \"deadline\": \"2025-06-19\",\n        \"assigned_to\": \"gopal\",\n        \"assigned_by_user\": \"eddy\",\n        \"assigned_by\": 1,\n        \"created_at\": \"2025-06-20T06:06:50.789082Z\",\n        \"updated_at\": \"2025-06-20T06:06:50.789104Z\"\n    },\n    {\n        \"id\": 17,\n        \"title\": \"Complete Code\",\n        \"description\": \"Complete Code\",\n        \"status\": \"MISSED\",\n        \"deadline\": \"2025-06-19\",\n        \"assigned_to\": \"gopal\",\n        \"assigned_by_user\": \"anil\",\n        \"assigned_by\": 3,\n        \"created_at\": \"2025-06-20T06:07:17.687091Z\",\n        \"updated_at\": \"2025-06-20T06:07:17.687107Z\"\n    },\n    {\n        \"id\": 18,\n        \"title\": \"Task title\",\n        \"description\": \"Task details\",\n        \"status\": \"PENDING\",\n        \"deadline\": \"2025-06-30\",\n        \"assigned_to\": \"amit\",\n        \"assigned_by_user\": \"eddy\",\n        \"assigned_by\": 1,\n        \"created_at\": \"2025-06-20T07:56:55.291423Z\",\n        \"updated_at\": \"2025-06-20T07:56:55.291455Z\"\n    },\n    {\n        \"id\": 19,\n        \"title\": \"Task title\",\n        \"description\": \"Task details\",\n        \"status\": \"PENDING\",\n        \"deadline\": \"2025-06-30\",\n        \"assigned_to\": \"amit\",\n        \"assigned_by_user\": \"eddy\",\n        \"assigned_by\": 1,\n        \"created_at\": \"2025-06-20T07:58:00.312270Z\",\n        \"updated_at\": \"2025-06-20T07:58:00.312288Z\"\n    },\n    {\n        \"id\": 20,\n        \"title\": \"Read book\",\n        \"description\": \"Task read book\",\n        \"status\": \"PENDING\",\n        \"deadline\": \"2025-06-30\",\n        \"assigned_to\": \"amit\",\n        \"assigned_by_user\": \"eddy\",\n        \"assigned_by\": 1,\n        \"created_at\": \"2025-06-20T08:15:23.006889Z\",\n        \"updated_at\": \"2025-06-20T08:15:23.006925Z\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "create task",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUwNDExNDQ1LCJpYXQiOjE3NTA0MTA1NDUsImp0aSI6ImZiZTQ5ZmEyYTU4ZTQ1NTc4MDI5MDZmNzYxOGVmOGQyIiwidXNlcl9pZCI6MSwicm9sZSI6IkFETUlOIn0.ozqDGDB-ipr0yOyQdDvOZCT6-hQA4EjqL5eYGoVTjDw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Manager Task\",\r\n    \"description\": \"Created by manager\", \r\n    \"deadline\": \"2025-06-30\",\r\n    \"assigned_to\": \"gopal\",\r\n    \"assigned_by\": 6\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/core/tasks/1/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"core",
+								"tasks",
+								"1",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "create task",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Manager Task\",\r\n    \"description\": \"Created by manager\", \r\n    \"deadline\": \"2025-06-30\",\r\n    \"assigned_to\": \"gopal\",\r\n    \"assigned_by\": 6\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/core/tasks/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"core",
+										"tasks",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 20 Jun 2025 09:10:20 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.13.1"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, origin"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "262"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 22,\n    \"title\": \"Manager Task\",\n    \"description\": \"Created by manager\",\n    \"status\": \"PENDING\",\n    \"deadline\": \"2025-06-30\",\n    \"assigned_to\": \"gopal\",\n    \"assigned_by_user\": \"shreya\",\n    \"assigned_by\": 6,\n    \"created_at\": \"2025-06-20T09:10:20.000665Z\",\n    \"updated_at\": \"2025-06-20T09:10:20.000698Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Task",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUwNDExNDQ1LCJpYXQiOjE3NTA0MTA1NDUsImp0aSI6ImZiZTQ5ZmEyYTU4ZTQ1NTc4MDI5MDZmNzYxOGVmOGQyIiwidXNlcl9pZCI6MSwicm9sZSI6IkFETUlOIn0.ozqDGDB-ipr0yOyQdDvOZCT6-hQA4EjqL5eYGoVTjDw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Updated title\",\r\n    \"description\": \"Updated description\",\r\n    \"status\": \"IN_PROGRESS\",\r\n    \"deadline\": \"2025-07-15\",\r\n    \"assigned_to\": \"amit\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/core/tasks/1/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"core",
+								"tasks",
+								"1",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update Task",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Updated title\",\r\n    \"description\": \"Updated description\",\r\n    \"status\": \"IN_PROGRESS\",\r\n    \"deadline\": \"2025-07-15\",\r\n    \"assigned_to\": \"amit\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/core/tasks/1/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"core",
+										"tasks",
+										"1",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 20 Jun 2025 09:16:35 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.13.1"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, origin"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "264"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"title\": \"Updated title\",\n    \"description\": \"Updated description\",\n    \"status\": \"IN_PROGRESS\",\n    \"deadline\": \"2025-07-15\",\n    \"assigned_to\": \"amit\",\n    \"assigned_by_user\": \"eddy\",\n    \"assigned_by\": 1,\n    \"created_at\": \"2025-06-19T07:24:53.280829Z\",\n    \"updated_at\": \"2025-06-20T09:16:35.270391Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Prtial Update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUwNDEyMzY5LCJpYXQiOjE3NTA0MTE0NjksImp0aSI6ImZkNjk5MmQ2NmJjYzQxYTg4N2RmMTQxZWRjOGFlMmM0IiwidXNlcl9pZCI6Mywicm9sZSI6Ik1BTkFHRVIifQ.579psQ6Jp_5nfwJ_XMe51_O5oeCMwwhZWPxFQrbQFJI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Updated title by patch\",\r\n    \"description\": \"Updated description\",\r\n    \"status\": \"IN_PROGRESS\",\r\n    \"deadline\": \"2025-07-15\",\r\n    \"assigned_to\": \"gopal\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/core/tasks/1/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"core",
+								"tasks",
+								"1",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "http://localhost:8000/api/core/tasks/1/",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Updated title by patch\",\r\n    \"description\": \"Updated description\",\r\n    \"status\": \"IN_PROGRESS\",\r\n    \"deadline\": \"2025-07-15\",\r\n    \"assigned_to\": \"gopal\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/core/tasks/1/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"core",
+										"tasks",
+										"1",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 20 Jun 2025 09:31:59 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.13.1"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, origin"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "274"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"title\": \"Updated title by patch\",\n    \"description\": \"Updated description\",\n    \"status\": \"IN_PROGRESS\",\n    \"deadline\": \"2025-07-15\",\n    \"assigned_to\": \"gopal\",\n    \"assigned_by_user\": \"anil\",\n    \"assigned_by\": 3,\n    \"created_at\": \"2025-06-19T07:24:53.280829Z\",\n    \"updated_at\": \"2025-06-20T09:31:59.568675Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Specific task",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUwNDExNDQ1LCJpYXQiOjE3NTA0MTA1NDUsImp0aSI6ImZiZTQ5ZmEyYTU4ZTQ1NTc4MDI5MDZmNzYxOGVmOGQyIiwidXNlcl9pZCI6MSwicm9sZSI6IkFETUlOIn0.ozqDGDB-ipr0yOyQdDvOZCT6-hQA4EjqL5eYGoVTjDw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/core/tasks/9/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"core",
+								"tasks",
+								"9",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "access_token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUwNDA3NDk0LCJpYXQiOjE3NTA0MDY1OTQsImp0aSI6IjlhN2YzODViNzM5YzQyOTFiMGQ2NDkwNThmZDk3NDExIiwidXNlcl9pZCI6Mywicm9sZSI6Ik1BTkFHRVIifQ.5kuwQac1q9CDelR6Ompb56ujxRY_rewjW5WXqgDgkPo"
+		},
+		{
+			"key": "refresh_token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1MDQ5Mjk5NCwiaWF0IjoxNzUwNDA2NTk0LCJqdGkiOiI0ZTZmYWZkMTc3MGM0YWQ5OTdiMzkxOGZhOGFjODk4MSIsInVzZXJfaWQiOjMsInJvbGUiOiJNQU5BR0VSIn0.t8uiUqENXW5zlcw34Wq8K5ZP9T2j0LDfebbUD5CPLEg"
+		}
+	]
+}

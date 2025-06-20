@@ -1,9 +1,8 @@
 from pathlib import Path
-import os
-from datetime import timedelta
 from dotenv import load_dotenv
+from datetime import timedelta
+import os
 
-# Load environment variables
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -83,10 +82,22 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Custom user model
+
 AUTH_USER_MODEL = 'core.User'
 
-# Database
+
+#DRF_Configuration
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
+
+#Database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -94,18 +105,7 @@ DATABASES = {
     }
 }
 
-# DRF Configuration
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-        'rest_framework.authentication.SessionAuthentication',  # For browsable API
-    ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
-    ],
-}
-
-# JWT Settings
+#JWT
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=int(os.getenv('JWT_ACCESS_LIFETIME', 15))),
     'REFRESH_TOKEN_LIFETIME': timedelta(minutes=int(os.getenv('JWT_REFRESH_LIFETIME', 1440))),
@@ -113,34 +113,23 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True
 }
 
-# Email Settings
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.gmail.com')
-EMAIL_PORT = os.getenv('EMAIL_PORT', 587)
-EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', True)
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'noreply@yourdomain.com')
-
-# CORS Settings
 CORS_ALLOW_ALL_ORIGINS = True
 
-# Logging Configuration
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
+    'version':1,
+    'disable_existing_loggers':False,
     'handlers': {
         'file': {
-            'level': 'WARNING',
-            'class': 'logging.FileHandler',
-            'filename': 'logs/overdue_tasks.log',
+            'level':'WARNING',
+            'class':'logging.FileHandler',
+            'filename': 'logs/Missed_Tasks.log',
         },
     },
     'loggers': {
         'core': {
             'handlers': ['file'],
-            'level': 'WARNING',
-            'propagate': True,
+            'level':'WARNING',
+            'propagate':True,
         },
     },
 }

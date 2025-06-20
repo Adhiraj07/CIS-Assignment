@@ -1,24 +1,25 @@
 from django.urls import path
 from rest_framework_simplejwt.views import TokenRefreshView
 from .views import (
-    RegisterView,
-    CustomTokenObtainPairView,
+    UserRegisterView,
+    MyTokenObtainPairView,
     UserListView,
     UserDetailView,
-    TaskListCreateView,
+    TaskCreateListView,
     TaskDetailView,
-    ReactivateUserView,
     LogoutView
 )
 
 urlpatterns = [
-    path('register/', RegisterView.as_view(), name='register'),
-    path('login/', CustomTokenObtainPairView.as_view(), name='login'),
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('users/', UserListView.as_view(), name='user-list'),
-    path('users/<int:pk>/', UserDetailView.as_view(), name='user-detail'),
-    path('tasks/', TaskListCreateView.as_view(), name='task-list'),
-    path('tasks/<int:pk>/', TaskDetailView.as_view(), name='task-detail'),
-    path('users/<int:pk>/reactivate/', ReactivateUserView.as_view(), name='reactivate-user'),
-    path('api/auth/logout/', LogoutView.as_view(), name='logout'),
+    path('register/',UserRegisterView.as_view(),name='register'),
+    path('login/',MyTokenObtainPairView.as_view(),name='login'),
+    path('token/refresh/',TokenRefreshView.as_view(),name='refresh_token'),
+    
+    path('users/',UserListView.as_view(),name='user_list'),
+    path('users/<int:pk>/',UserDetailView.as_view(),name='user_detail'),
+    
+    path('tasks/',TaskCreateListView.as_view(),name='task_list'),
+    path('tasks/<int:pk>/',TaskDetailView.as_view(),name='task_detail'),
+    
+    path('logout/',LogoutView.as_view(),name='logout'),
 ]

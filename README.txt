@@ -1,13 +1,15 @@
 # Task Management API with JWT Authentication
 
 ## Features
-- Secure JWT authentication (login/logout)
-- Role-based access control (Admin/Manager/User)
-- Full task CRUD operations
+- JWT-based login/logout system
+- Role-based access (Admin / Manager / User)
+- Full CRUD operations
 - Automated user deactivation after 5 missed deadlines
 - Admin panel integration
 
-## Setup Instructions
+
+##Setup Instructions
+
 1. Install dependencies:
 ```bash
 pip install -r requirements.txt
@@ -29,16 +31,17 @@ python manage.py runserver
 ```
 
 ## API Endpoints
-| Endpoint | Method | Description | Access |
-|----------|--------|-------------|--------|
-| `/auth/login/` | POST | Get JWT tokens | Public |
-| `/auth/logout/` | POST | Invalidate refresh token | Authenticated |
-| `/tasks/` | GET | List tasks | Admin:all, User:assigned |
-| `/tasks/` | POST | Create task | Admin/Manager only |
+
+| Endpoint        | Method | Description                | Access Level                              |
+| --------------- | ------ | -------------------------- | ----------------------------------------- |
+| `/auth/login/`  | POST   | Obtain JWT tokens          | Public                                    |
+| `/auth/logout/` | POST   | Logout and blacklist token | Authenticated users                       |
+| `/tasks/`       | GET    | List tasks                 | Admin/Manager: all<br>User: only assigned |
+| `/tasks/`       | POST   | Create a new task          | Admin / Manager only                      |
+| `/tasks/<id>/`  | PUT    | Update a task              | Assigned user or Admin                    |
+| `/tasks/<id>/`  | DELETE | Delete a task              | Admin / Manager only                      |
 
 ## User Management
 - Admins: Full access via `/admin`
 - Managers: Can manage tasks/users
 - Users: View/update assigned tasks
-
-See Postman collection for detailed API examples.

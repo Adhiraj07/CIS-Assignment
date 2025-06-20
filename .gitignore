@@ -1,0 +1,6 @@
+# Python/Django standard ignores
+*.pyc
+__pycache__/
+venv/
+.env
+*.sqlite3
