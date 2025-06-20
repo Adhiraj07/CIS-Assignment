@@ -1,6 +1,21 @@
-# Python/Django standard ignores
+#Django
+*.sqlite3
 *.pyc
 __pycache__/
-venv/
+
+#Environment files
 .env
-*.sqlite3
+.env.example
+
+#Log files
+*.log
+
+#IDE files
+.vscode/
+.idea/
+#Virtual environment
+venv/
+env/
+#Database migrations
+*/migrations/*
+!*/migrations/__init__.py
