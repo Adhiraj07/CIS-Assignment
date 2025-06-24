@@ -26,7 +26,7 @@ class UserRegisterView(CreateAPIView):
     # Only admin can create new users
     queryset=User.objects.all()
     serializer_class=UserSerializer
-    permission_classes=[IsAdmin]
+    permission_classes=[IsAuthenticated, IsAdmin]
 
 class UserListView(ListAPIView):
     #userlist in this view only admin and manager can see all users
@@ -56,39 +56,38 @@ class TaskCreateListView(ListCreateAPIView):
         return Task.objects.filter(assigned_to=self.request.user)
 
 class TaskDetailView(RetrieveUpdateDestroyAPIView):
-    queryset = Task.objects.all()
-    serializer_class = TaskSerializer
-    permission_classes = [IsAuthenticated]
+    queryset=Task.objects.all()
+    serializer_class=TaskSerializer
+    permission_classes=[IsAuthenticated,IsAdminOrmanager]
+
 
     def get_permissions(self):
-        if self.request.method == 'GET':
-            # Get task ID without fetching object
-            task_id = self.kwargs.get('pk')
-            task = Task.objects.filter(id=task_id).first()
-            if task and task.assigned_to != self.request.user and self.request.user.role not in ['ADMIN', 'MANAGER']:
-                raise PermissionDenied("You do not have permission to view this...")
-                
-        elif self.request.method == 'DELETE':
-            if self.request.user.role != 'ADMIN':
-                raise PermissionDenied("admins can deleteonly")
-                
-        elif self.request.method in ['PUT', 'PATCH']:
-            task_id = self.kwargs.get('pk')
-            task = Task.objects.filter(id=task_id).first()
-            if task and task.assigned_to != self.request.user and self.request.user.role not in ['ADMIN', 'MANAGER']:
-                raise PermissionDenied("You do not have permission to modify this...")
-                
+        ''' only admin can delete tasks '''
+        if self.request.method=='DELETE':
+            return [IsAdmin()]
+        if self.request.method in ['PUT','PATCH']:
+            return [IsAdminOrmanager()]
+        
         return [IsAuthenticated()]
 
     def get_queryset(self):
-        if self.request.user.role in ['ADMIN', 'MANAGER']:
+        '''admin and managers can access taks'''
+        if self.request.user.role in ['ADMIN','MANAGER']:
             return Task.objects.all()
+
         return Task.objects.filter(assigned_to=self.request.user)
 
     def perform_update(self, serializer):
-        if self.request.user.role == 'USER' and 'assigned_to' in serializer.validated_data:
+        '''normal user cannot change assign_to field'''
+        if (self.request.user.role == 'USER' and 'assigned_to' in serializer.validated_data):
             raise PermissionDenied("You cannot reassign tasks")
         serializer.save()
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response({'detail': 'Task deleted'}, status=status.HTTP_200_OK)
+
 
 class LogoutView(GenericAPIView):   
     permission_classes=[IsAuthenticated]
