@@ -29,17 +29,22 @@ python manage.py createsuperuser
 ```bash
 python manage.py runserver
 ```
+This project includes a custom Django management command 
+to deactivate users who have missed 5 or more tasks
+python manage.py check_missed_deadlines
 
 ## API Endpoints
 
 | Endpoint        | Method | Description                | Access Level                              |
 | --------------- | ------ | -------------------------- | ----------------------------------------- |
-| `/auth/login/`  | POST   | Obtain JWT tokens          | Public                                    |
-| `/auth/logout/` | POST   | Logout and blacklist token | Authenticated users                       |
-| `/tasks/`       | GET    | List tasks                 | Admin/Manager: all<br>User: only assigned |
-| `/tasks/`       | POST   | Create a new task          | Admin / Manager only                      |
-| `/tasks/<id>/`  | PUT    | Update a task              | Assigned user or Admin                    |
-| `/tasks/<id>/`  | DELETE | Delete a task              | Admin / Manager only                      |
+| `/core/login/`  | POST   | Obtain JWT tokens          | Public                                    |
+| `/core/logout/` | POST   | Logout and blacklist token | Authenticated users                       |
+| `core/tasks/`       | GET    | List tasks                 | Admin/Manager: all<br>User: only assigned |
+| `core/tasks/`       | POST   | Create a new task          | Admin / Manager only                      |
+| `core/tasks/<id>/`  | PUT    | Update a task              | Assigned user or Admin                    |
+| `core/tasks/<id>/`  | DELETE | Delete a task              | Admin / Manager only                      |
+
+
 
 ## User Management
 - Admins: Full access via `/admin`
