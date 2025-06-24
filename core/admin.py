@@ -3,6 +3,12 @@ from .models import User,Task
 from django.contrib.auth.admin import UserAdmin
 
 @admin.register(User)
+class SimpleUserAdmin(UserAdmin):
+    list_display = ('username','email','role')
+    fieldsets = ((None, {'fields': ('username','email','role','is_active')}),)
+    add_fieldsets = ((None, {'fields': ('username','email','password1','password2','role')}),)
+
+
 class TaskAdmin(admin.ModelAdmin):
     def save_model(self,request,obj,form,change):
         if not obj.assigned_by_id:
@@ -19,10 +25,6 @@ class TaskAdmin(admin.ModelAdmin):
             kwargs['queryset'] = User.objects.filter(role__in=['ADMIN','MANAGER'])
         return super().formfield_for_foreignkey(db_field,request,**kwargs)
 
-class SimpleUserAdmin(UserAdmin):
-    list_display = ('username','email','role')
-    fieldsets = ((None, {'fields': ('username','email','role','is_active')}),)
-    add_fieldsets = ((None, {'fields': ('username','email','password1','password2','role')}),)
 
 
 

@@ -12,52 +12,54 @@ User = get_user_model()
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
-    def get_token(cls,user):
+    def get_token(cls, user):
         token = super().get_token(user)
         token['role'] = user.role
         return token
-    def validate(self,attrs):
-        import logging
-        logger = logging.getLogger(__name__)
+
+    def validate(self,field):
         try:
-            logger.info(f"Attempting login for user: {attrs.get('username')}")
-            user = User.objects.get(username=attrs.get('username'))
-            logger.info(f"User status - is_active: {user.is_active}, last_login: {user.last_login}")
-            validated_data = super().validate(attrs)
-            logger.info("Login validation succeeded")
-            validated_data["user"]={
-                "id": self.user.id,
-                "username": self.user.username,
-                "email": self.user.email,
-                "role": self.user.role,
-                "is_active": self.user.is_active
+            user = User.objects.get(username=field.get('username'))
+            validated_data = super().validate(field)
+            validated_data["user"] = {
+                "id": user.id,
+                "username": user.username,
+                "email": user.email,
+                "role": user.role,
+                "is_active": user.is_active
             }
             return validated_data
+        except User.DoesNotExist:
+            raise serializers.ValidationError({"detail": "User does not exist"})
         except Exception as e:
-            logger.error(f"Login validation failed: {str(e)}")
-            raise
+            raise serializers.ValidationError({"detail": "Login failed"})
 
 class UserSerializer(serializers.ModelSerializer):
-    password=serializers.CharField(write_only=True,required=True,style={'input_type': 'password'},validators=[validate_password])
-    email=serializers.EmailField(required=False,allow_blank=True)
+    password = serializers.CharField(write_only=True,required=True,style={'input_type': 'password'},validators=[validate_password])
+    email = serializers.EmailField(required=False, allow_blank=True)
+
 
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'password', 'role', 'is_active']
         extra_kwargs = {
             'password': {'write_only': True},
-            'role': {'read_only': True},
             'is_active': {'read_only': True}
         }
         
-    def create(self,validated_data):
-        #By default we will give USER role
-        validated_data['role'] = validated_data.get('role', 'USER')
-        user=User.objects.create_user(
+    def create(self, validated_data):
+        allowed_roles = ['USER', 'MANAGER', 'ADMIN']
+        role = validated_data.get('role', 'USER')
+        
+        if role not in allowed_roles:
+            role = 'USER'  #By default
+
+
+        user = User.objects.create_user(
             username=validated_data['username'],
-            email=validated_data.get('email', 'none'),
+            email=validated_data.get('email', ''),
             password=validated_data['password'],
-            role=validated_data['role']
+            role=role
         )
         return user
 
@@ -80,10 +82,20 @@ class TaskSerializer(serializers.ModelSerializer):
         read_only_fields = ['created_at','updated_at','assigned_by_user']
     
     def validate(self, attrs):
+        request = self.context['request']
+    
+        # Skip all validation if only updating status
+        if set(attrs.keys()) == {'status'}:
+            return attrs
+            
+        # Auto-set assigned_by if not provided
         if 'assigned_by' not in attrs:
-            attrs['assigned_by'] = self.context['request'].user
-        elif self.context['request'].user.role not in ['MANAGER', 'ADMIN']:
-            raise serializers.ValidationError(
-                {"assigned_by": "Only managers or admins can set this field"}
-            )
+            attrs['assigned_by'] = request.user
+        
+        # Only check assigner for other updates
+        if (request.user == self.instance.assigned_to and 
+            'assigned_by' in attrs and 
+            attrs['assigned_by'] != self.instance.assigned_by):
+            raise serializers.ValidationError("Cannot change task assigner")
+        
         return attrs
